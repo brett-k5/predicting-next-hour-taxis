@@ -1,3 +1,6 @@
+# Standard library imports
+import warnings
+
 import numpy as np
 import pandas as pd
 import random
@@ -8,9 +11,12 @@ from sklearn.linear_model import LinearRegression
 from tbats import TBATS
 from statsmodels.tsa.statespace.sarimax import SARIMAXResults
 
-from src.test import test
+from src.test import test, naive_models, save_df
 from src.model_io import rmse_comp
 import src.pre_processing as pre 
+
+# Ensure all UserWarnings are always shown during execution (including repeated warnings)
+warnings.simplefilter('always', UserWarning)
 
 
 paths_avg_rmse = ['cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_1h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_1h.csv',
@@ -48,6 +54,19 @@ if __name__ == '__main__':
                                                                                 pre.y_test_hour,
                                                                                 'one_hour',
                                                                                 1)
+    (
+        lag_1_rmse_1h_set, lag_1_nrmse_1h_set, lag_1_r2_1h_set,
+        lag_24_rmse_1h_set, lag_24_nrmse_1h_set, lag_24_r2_1h_set,
+        lag_72_rmse_1h_set, lag_72_nrmse_1h_set, lag_72_r2_1h_set,
+        lag_168_rmse_1h_set, lag_168_nrmse_1h_set, lag_168_r2_1h_set
+    ) = naive_models(pre.y_train_hour, pre.y_test_hour)
+
+    save_df(best_model_hour_type, 'hour',
+    rmse_hour, normalized_rmse_hour, r2_score_hour,
+    lag_168_rmse_1h_set, lag_168_nrmse_1h_set, lag_168_r2_1h_set,
+    lag_24_rmse_1h_set, lag_24_nrmse_1h_set, lag_24_r2_1h_set,
+    lag_72_rmse_1h_set, lag_72_nrmse_1h_set, lag_72_r2_1h_set,
+    lag_1_rmse_1h_set, lag_1_nrmse_1h_set, lag_1_r2_1h_set)
 
 
     best_model_12_hours = rmse_comp(avg_rmse_dfs['df_12_hours_blocked'], avg_rmse_dfs['df_12_hours_exp_w'], '12_hours', 12)
@@ -58,8 +77,21 @@ if __name__ == '__main__':
                                                                                                 pre.y_test_12_hours,
                                                                                                 '12_hours',
                                                                                                 12)
+    (
+        _, _, _,
+        lag_24_rmse_12h_set, lag_24_nrmse_12h_set, lag_24_r2_12h_set,
+        lag_72_rmse_12h_set, lag_72_nrmse_12h_set, lag_72_r2_12h_set,
+        lag_168_rmse_12h_set, lag_168_nrmse_12h_set, lag_168_r2_12h_set
+    ) = naive_models(pre.y_train_12_hours, pre.y_test_12_hours)
 
-    best_model_day = rmse_comp(avg_rmse_dfs['df_one_day_blocked'], avg_rmse_dfs['df_one_day_exp_w'], 'day', 24)
+    save_df(best_model_12_hours_type, '12_hours',
+    rmse_12_hours, normalized_rmse_12_hours, r2_score_12_hours,
+    lag_168_rmse_12h_set, lag_168_nrmse_12h_set, lag_168_r2_12h_set,
+    lag_72_rmse_12h_set, lag_72_nrmse_12h_set, lag_72_r2_12h_set,
+    lag_24_rmse_12h_set, lag_24_nrmse_12h_set, lag_24_r2_12h_set)
+
+
+    best_model_day = rmse_comp(avg_rmse_dfs['df_one_day_blocked'], avg_rmse_dfs['df_one_day_exp_w'], 'day', 24, override=True, override_model=LinearRegression)
     best_model_day_type, rmse_day, normalized_rmse_day, r2_score_day = test(best_model_day,
                                                                             pre.X_train_day,
                                                                             pre.y_train_day,
@@ -67,13 +99,23 @@ if __name__ == '__main__':
                                                                             pre.y_test_day,
                                                                             'one_day',
                                                                             24)
+    (
+        
+        _, _, _,
+        lag_24_rmse_24h_set, lag_24_nrmse_24h_set, lag_24_r2_24h_set,
+        lag_72_rmse_24h_set, lag_72_nrmse_24h_set, lag_72_r2_24h_set,
+        lag_168_rmse_24h_set, lag_168_nrmse_24h_set, lag_168_r2_24h_set
+    ) = naive_models(pre.y_train_day, pre.y_test_day)
 
-    best_model_3_days = rmse_comp(avg_rmse_dfs['df_72_hours_blocked'], 
-                                  avg_rmse_dfs['df_72_hours_exp_w'], 
-                                  '3_days', 
-                                  72, 
-                                  override=True, 
-                                  override_model=TBATS)
+    save_df(best_model_day_type, 'day',
+    rmse_day, normalized_rmse_day, r2_score_day,
+    lag_168_rmse_24h_set, lag_168_nrmse_24h_set, lag_168_r2_24h_set,
+    lag_72_rmse_24h_set, lag_72_nrmse_24h_set, lag_72_r2_24h_set,
+    lag_24_rmse_24h_set, lag_24_nrmse_24h_set, lag_24_r2_24h_set)
+
+
+
+    best_model_3_days = rmse_comp(avg_rmse_dfs['df_72_hours_blocked'], avg_rmse_dfs['df_72_hours_exp_w'], '3_days', 72)
     best_model_3_days_type, rmse_3_days, normalized_rmse_3_days, r2_score_3_days = test(best_model_3_days,
                                                                                         pre.X_train_3_days,
                                                                                         pre.y_train_3_days,
@@ -81,6 +123,18 @@ if __name__ == '__main__':
                                                                                         pre.y_test_3_days,
                                                                                         '3_days',
                                                                                         72)
+    (
+        _, _, _,
+        _, _, _,
+        lag_72_rmse_72h_set, lag_72_nrmse_72h_set, lag_72_r2_72h_set,
+        lag_168_rmse_72h_set, lag_168_nrmse_72h_set, lag_168_r2_72h_set
+    ) = naive_models(pre.y_train_3_days, pre.y_test_3_days)
+
+    save_df(best_model_3_days_type, '3_days',
+    rmse_3_days, normalized_rmse_3_days, r2_score_3_days,
+    lag_72_rmse_72h_set, lag_72_nrmse_72h_set, lag_72_r2_72h_set,
+    lag_168_rmse_72h_set, lag_168_nrmse_72h_set, lag_168_r2_72h_set)
+
 
     best_model_week = rmse_comp(avg_rmse_dfs['df_one_week_blocked'], avg_rmse_dfs['df_one_week_exp_w'], 'week', 168)
     best_model_week_type, rmse_week, normalized_rmse_week, r2_score_week = test(best_model_week,
@@ -91,15 +145,19 @@ if __name__ == '__main__':
                                                                                 'one_week',
                                                                                 168)
 
-    test_results = pd.DataFrame({
-    f"best_hour_model: {best_model_hour_type}": [rmse_hour, normalized_rmse_hour, r2_score_hour],
-    f"best_12_hour_model: {best_model_12_hours_type}": [rmse_12_hours, normalized_rmse_12_hours, r2_score_12_hours],
-    f"best_day_model: {best_model_day_type}": [rmse_day, normalized_rmse_day, r2_score_day],
-    f"best_3_day_model: {best_model_3_days_type}": [rmse_3_days, normalized_rmse_3_days, r2_score_3_days],
-    f"best_week_model: {best_model_week_type}": [rmse_week, normalized_rmse_week, r2_score_week]
-}, index=["rmse", "nrmse", "r2"])
+    (
+        _, _, _,
+        _, _, _,
+        _, _, _,
+        lag_168_rmse_168h_set, lag_168_nrmse_168h_set, lag_168_r2_168h_set
+    ) = naive_models(pre.y_train_week, pre.y_test_week)
 
-    test_results.to_csv('test_results.csv', index=False)
-     
+    save_df(best_model_week_type, 'week',
+    rmse_week, normalized_rmse_week, r2_score_week,
+    lag_168_rmse_168h_set, lag_168_nrmse_168h_set, lag_168_r2_168h_set)
+
+
+
+    
     
         

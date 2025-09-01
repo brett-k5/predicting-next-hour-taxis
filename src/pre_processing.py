@@ -36,9 +36,9 @@ hourly_orders['day_of_month'] = hourly_orders['day_of_month'].astype(str)
 hourly_orders = hourly_orders.dropna()
 
 # Split data set into test set and training set for different forecast lengths 
-train_hour, test_hour = train_test_split(hourly_orders, shuffle=False, test_size=72)
-train_12_hours, test_12_hours = train_test_split(hourly_orders, shuffle=False, test_size=72)
-train_day, test_day = train_test_split(hourly_orders, shuffle=False, test_size=72)
+train_hour, test_hour = train_test_split(hourly_orders, shuffle=False, test_size=24)
+train_12_hours, test_12_hours = train_test_split(hourly_orders, shuffle=False, test_size=24)
+train_day, test_day = train_test_split(hourly_orders, shuffle=False, test_size=28)
 train_3_days, test_3_days = train_test_split(hourly_orders, shuffle=False, test_size=76)
 train_week, test_week = train_test_split(hourly_orders, shuffle=False, test_size=172)
 

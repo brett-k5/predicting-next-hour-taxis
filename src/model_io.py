@@ -1,12 +1,13 @@
 # Standard library imports
 import os
 import pickle
-import pandas as pd
+import warnings
 
 # Typing imports
 from typing import Union, Optional
 
 # Third-party library imports
+import pandas as pd
 from sklearn.linear_model import LinearRegression
 from tbats import TBATS
 from statsmodels.tsa.statespace.sarimax import SARIMAXResults
@@ -70,6 +71,13 @@ def rmse_comp(df_blocked: pd.DataFrame,
     df_exp_w = df_exp_w.T
     df_exp_w.columns = ['rmse']
     if df_blocked['rmse'].idxmin() == df_exp_w['rmse'].idxmin():
+        if override:
+            print(f"For {forecast_length} model:")
+            warnings.warn(
+            "`override=True` when the minimum rmse on blocked and exp_w CV are the same may "
+            "lead to misleading results. Consider using the default override=False.",
+            UserWarning
+            )
         return load_model(f'models/best_model_{forecast_length}_blocked.pkl')
     else:
         if override:
