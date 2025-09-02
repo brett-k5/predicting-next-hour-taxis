@@ -64,8 +64,8 @@ if __name__ == '__main__':
     save_df(best_model_hour_type, 'hour',
     rmse_hour, normalized_rmse_hour, r2_score_hour,
     lag_168_rmse_1h_set, lag_168_nrmse_1h_set, lag_168_r2_1h_set,
-    lag_24_rmse_1h_set, lag_24_nrmse_1h_set, lag_24_r2_1h_set,
     lag_72_rmse_1h_set, lag_72_nrmse_1h_set, lag_72_r2_1h_set,
+    lag_24_rmse_1h_set, lag_24_nrmse_1h_set, lag_24_r2_1h_set,
     lag_1_rmse_1h_set, lag_1_nrmse_1h_set, lag_1_r2_1h_set)
 
 
@@ -132,8 +132,8 @@ if __name__ == '__main__':
 
     save_df(best_model_3_days_type, '3_days',
     rmse_3_days, normalized_rmse_3_days, r2_score_3_days,
-    lag_72_rmse_72h_set, lag_72_nrmse_72h_set, lag_72_r2_72h_set,
-    lag_168_rmse_72h_set, lag_168_nrmse_72h_set, lag_168_r2_72h_set)
+    lag_168_rmse_72h_set, lag_168_nrmse_72h_set, lag_168_r2_72h_set,
+    lag_72_rmse_72h_set, lag_72_nrmse_72h_set, lag_72_r2_72h_set)
 
 
     best_model_week = rmse_comp(avg_rmse_dfs['df_one_week_blocked'], avg_rmse_dfs['df_one_week_exp_w'], 'week', 168)

@@ -1,7 +1,10 @@
 import pandas as pd 
 import numpy as np
 
+
+from src.features_utils import lag_adjustments
 from sklearn.model_selection import train_test_split
+
 
 taxi_orders_df = pd.read_csv('taxi.csv', index_col=[0], parse_dates=[0])
 
@@ -42,15 +45,17 @@ train_day, test_day = train_test_split(hourly_orders, shuffle=False, test_size=2
 train_3_days, test_3_days = train_test_split(hourly_orders, shuffle=False, test_size=76)
 train_week, test_week = train_test_split(hourly_orders, shuffle=False, test_size=172)
 
-def features_target(train, test):
+def features_target(train: pd.DataFrame, test: pd.DataFrame, forecast_length: int) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
     X_train = train.drop('num_orders', axis=1)
+    X_train = lag_adjustments(forecast_length, X_train)
     y_train = train['num_orders']
     X_test = test.drop('num_orders', axis=1)
+    X_test = lag_adjustments(forecast_length, X_test)
     y_test = test['num_orders']
     return X_train, y_train, X_test, y_test 
 
-X_train_hour, y_train_hour, X_test_hour, y_test_hour = features_target(train_hour, test_hour)
-X_train_12_hours, y_train_12_hours, X_test_12_hours, y_test_12_hours = features_target(train_12_hours, test_12_hours)
-X_train_day, y_train_day, X_test_day, y_test_day = features_target(train_day, test_day)
-X_train_3_days, y_train_3_days, X_test_3_days, y_test_3_days = features_target(train_3_days, test_3_days)
-X_train_week, y_train_week, X_test_week, y_test_week = features_target(train_week, test_week)
+X_train_hour, y_train_hour, X_test_hour, y_test_hour = features_target(train_hour, test_hour, 1)
+X_train_12_hours, y_train_12_hours, X_test_12_hours, y_test_12_hours = features_target(train_12_hours, test_12_hours, 12)
+X_train_day, y_train_day, X_test_day, y_test_day = features_target(train_day, test_day, 24)
+X_train_3_days, y_train_3_days, X_test_3_days, y_test_3_days = features_target(train_3_days, test_3_days, 72)
+X_train_week, y_train_week, X_test_week, y_test_week = features_target(train_week, test_week, 168)

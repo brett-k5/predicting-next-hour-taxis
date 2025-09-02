@@ -11,7 +11,6 @@ from tbats import TBATS
 import statsmodels.api as sm  # Possibly for SARIMA initialization
 
 # Local application imports
-from src.features_utils import lag_adjustments
 from src.model_io import save_best_model, best_model_selection
 from src.models import model_lin, model_tbats, sarima
 from src.metrics import rmse_calc
@@ -93,7 +92,6 @@ def cross_validation(
     model_save_path: str,
     cv_type: str
 ) -> None:
-    X_train_full = lag_adjustments(forecast_length, X_train_full)
 
     os.makedirs('cv_rmse_scores/cv_avg_rmse_scores', exist_ok=True)
     os.makedirs('cv_rmse_scores/cv_fold_rmse_scores', exist_ok=True)

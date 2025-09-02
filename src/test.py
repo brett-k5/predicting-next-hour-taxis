@@ -9,9 +9,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Local application imports
-from src.features_utils import lag_adjustments
 from src.metrics import rmse_calc, normalized_rmse
-
 
 
 def test(best_model, 
@@ -50,8 +48,6 @@ def test(best_model,
             preds = pd.Series(preds)
             preds_sarima.append(preds)
         elif isinstance(best_model, LinearRegression):
-            X_train = lag_adjustments(forecast_length_int, X_train)
-            X_test_step = lag_adjustments(forecast_length_int, X_test_step)
             best_model.fit(X_train, y_train)
             preds = best_model.predict(X_test_step)
             preds = pd.Series(preds)
