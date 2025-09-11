@@ -6,9 +6,10 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 
 # Local application imports
-from src.cross_validation import n_splits, cross_validation
-from src.models import model_lin, sarima, model_tbats
+from src.cross_validation import cross_validation, n_splits
+from src.models import model_lin, model_tbats, sarima
 from src.pre_processing import X_train_12_hours, y_train_12_hours
+
 
 
 if __name__ == '__main__':
