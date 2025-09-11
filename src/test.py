@@ -1,16 +1,17 @@
-
-import pandas as pd
+# Standard library imports
 import statistics as st
 from typing import Union
+
 # Third-party imports
-from statsmodels.tsa.statespace.sarimax import SARIMAX, SARIMAXResults
-from sklearn.linear_model import LinearRegression
-from tbats import TBATS
 import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+from statsmodels.tsa.statespace.sarimax import SARIMAX, SARIMAXResults
+from tbats import TBATS
 
 # Local application imports
-from src.metrics import rmse_calc, normalized_rmse
+from src.metrics import normalized_rmse, rmse_calc
 
 
 def test(best_model: Union[SARIMAXResults, LinearRegression, TBATS], 

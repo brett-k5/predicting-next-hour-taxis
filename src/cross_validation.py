@@ -5,15 +5,15 @@ from typing import Generator, Tuple
 # Third-party imports
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from tbats import TBATS
-import statsmodels.api as sm  
 
 # Local application imports
-from src.model_io import save_best_model, best_model_selection
-from src.models import model_lin, model_tbats, sarima
 from src.metrics import rmse_calc
+from src.model_io import best_model_selection, save_best_model
+from src.models import model_lin, model_tbats, sarima
 
 # Number of folds to be used for all models and cv methods
 n_splits = 5

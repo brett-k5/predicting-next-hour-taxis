@@ -1,9 +1,10 @@
-import pandas as pd 
+# Third-party imports
 import numpy as np
-
-
-from src.features_utils import lag_adjustments
+import pandas as pd
 from sklearn.model_selection import train_test_split
+
+# Local application imports
+from src.features_utils import lag_adjustments
 
 # Load data set.Use parse_dates and index_col parameters to set datetiem index for resampling
 taxi_orders_df = pd.read_csv('taxi.csv', index_col=[0], parse_dates=[0])

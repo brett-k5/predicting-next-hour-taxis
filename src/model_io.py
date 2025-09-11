@@ -2,15 +2,13 @@
 import os
 import pickle
 import warnings
+from typing import Any, List, Optional, Union  # Typing imports
 
-# Typing imports
-from typing import Any, List, Optional, Union
-
-# Third-party library imports
+# Third-party imports
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from tbats import TBATS
 from statsmodels.tsa.statespace.sarimax import SARIMAXResults
+from tbats import TBATS
 
 
 def best_model_selection(rmse_list, model_list):
