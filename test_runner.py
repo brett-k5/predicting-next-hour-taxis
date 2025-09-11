@@ -19,23 +19,23 @@ import src.pre_processing as pre
 warnings.simplefilter('always', UserWarning)
 
 
-paths_avg_rmse = ['cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_1h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_1h.csv',
-                'cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_12h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_12h.csv',
-                'cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_24h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_24h.csv',
-                'cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_72h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_72h.csv',
-                'cv_rmse_scores/cv_avg_rmse_scores/blocked_avg_rmse_168h.csv', 'cv_rmse_scores/cv_avg_rmse_scores/expanded_w_avg_rmse_168h.csv']
+paths_all_folds_rmse = ['cv_rmse_scores/cv_all_folds_rmse_scores/blocked_all_folds_rmse_1h.csv', 'cv_rmse_scores/cv_all_folds_rmse_scores/expanded_w_all_folds_rmse_1h.csv',
+                       'cv_rmse_scores/cv_all_folds_rmse_scores/blocked_all_folds_rmse_12h.csv', 'cv_rmse_scores/cv_all_folds_rmse_scores/expanded_w_all_folds_rmse_12h.csv',
+                       'cv_rmse_scores/cv_all_folds_rmse_scores/blocked_all_folds_rmse_24h.csv', 'cv_rmse_scores/cv_all_folds_rmse_scores/expanded_w_all_folds_rmse_24h.csv',
+                       'cv_rmse_scores/cv_all_folds_rmse_scores/blocked_all_folds_rmse_72h.csv', 'cv_rmse_scores/cv_all_folds_rmse_scores/expanded_w_all_folds_rmse_72h.csv',
+                       'cv_rmse_scores/cv_all_folds_rmse_scores/blocked_all_folds_rmse_168h.csv', 'cv_rmse_scores/cv_all_folds_rmse_scores/expanded_w_all_folds_rmse_168h.csv']
     
-avg_rmse_names = ['df_hour_blocked', 'df_hour_exp_w',
+all_folds_rmse_names = ['df_hour_blocked', 'df_hour_exp_w',
                 'df_12_hours_blocked', 'df_12_hours_exp_w',
                 'df_one_day_blocked', 'df_one_day_exp_w',
                 'df_72_hours_blocked', 'df_72_hours_exp_w',
                 'df_one_week_blocked', 'df_one_week_exp_w']
 
     
-avg_rmse_dfs = {}
+all_folds_rmse_dfs = {}
 
-for file_path, name in zip(paths_avg_rmse, avg_rmse_names):
-    avg_rmse_dfs[name] = pd.read_csv(file_path)
+for file_path, name in zip(paths_all_folds_rmse, all_folds_rmse_names):
+    all_folds_rmse_dfs[name] = pd.read_csv(file_path)
 
 
 if __name__ == '__main__':
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     random.seed(12345)
 
     
-    best_model_hour = rmse_comp(avg_rmse_dfs['df_hour_blocked'], avg_rmse_dfs['df_hour_exp_w'], 'hour', 1)
+    best_model_hour = rmse_comp(all_folds_rmse_dfs['df_hour_blocked'], all_folds_rmse_dfs['df_hour_exp_w'], 'hour', 1)
     best_model_hour_type, rmse_hour, normalized_rmse_hour, r2_score_hour = test(best_model_hour,
                                                                                 pre.X_train_hour, 
                                                                                 pre.y_train_hour, 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     lag_1_rmse_1h_set, lag_1_nrmse_1h_set, lag_1_r2_1h_set)
 
 
-    best_model_12_hours = rmse_comp(avg_rmse_dfs['df_12_hours_blocked'], avg_rmse_dfs['df_12_hours_exp_w'], '12_hours', 12)
+    best_model_12_hours = rmse_comp(all_folds_rmse_dfs['df_12_hours_blocked'], all_folds_rmse_dfs['df_12_hours_exp_w'], '12_hours', 12)
     best_model_12_hours_type, rmse_12_hours, normalized_rmse_12_hours, r2_score_12_hours = test(best_model_12_hours,
                                                                                                 pre.X_train_12_hours,
                                                                                                 pre.y_train_12_hours,
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     lag_24_rmse_12h_set, lag_24_nrmse_12h_set, lag_24_r2_12h_set)
 
 
-    best_model_day = rmse_comp(avg_rmse_dfs['df_one_day_blocked'], avg_rmse_dfs['df_one_day_exp_w'], 'day', 24, override=True, override_model=LinearRegression)
+    best_model_day = rmse_comp(all_folds_rmse_dfs['df_one_day_blocked'], all_folds_rmse_dfs['df_one_day_exp_w'], 'day', 24, override=True, override_model=LinearRegression)
     best_model_day_type, rmse_day, normalized_rmse_day, r2_score_day = test(best_model_day,
                                                                             pre.X_train_day,
                                                                             pre.y_train_day,
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
 
 
-    best_model_3_days = rmse_comp(avg_rmse_dfs['df_72_hours_blocked'], avg_rmse_dfs['df_72_hours_exp_w'], '3_days', 72)
+    best_model_3_days = rmse_comp(all_folds_rmse_dfs['df_72_hours_blocked'], all_folds_rmse_dfs['df_72_hours_exp_w'], '3_days', 72)
     best_model_3_days_type, rmse_3_days, normalized_rmse_3_days, r2_score_3_days = test(best_model_3_days,
                                                                                         pre.X_train_3_days,
                                                                                         pre.y_train_3_days,
@@ -136,7 +136,7 @@ if __name__ == '__main__':
     lag_72_rmse_72h_set, lag_72_nrmse_72h_set, lag_72_r2_72h_set)
 
 
-    best_model_week = rmse_comp(avg_rmse_dfs['df_one_week_blocked'], avg_rmse_dfs['df_one_week_exp_w'], 'week', 168)
+    best_model_week = rmse_comp(all_folds_rmse_dfs['df_one_week_blocked'], all_folds_rmse_dfs['df_one_week_exp_w'], 'week', 168)
     best_model_week_type, rmse_week, normalized_rmse_week, r2_score_week = test(best_model_week,
                                                                                 pre.X_train_week,
                                                                                 pre.y_train_week,

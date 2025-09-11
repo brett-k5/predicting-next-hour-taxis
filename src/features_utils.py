@@ -2,9 +2,22 @@
 import pandas as pd
 
 def lag_adjustments(forecast_length: int, X: pd.DataFrame) -> pd.DataFrame:
-    # We can't pass our linear regression models lag features for times when the lag value would not occur until after the 
-    # the model is supposed to be making its forecast - that would be data leakage.
-    # Therefore, we need the below conditionals to drop lag features depending on the forecast length. 
+    """
+    Removes lag features from the input DataFrame to prevent data leakage 
+    during forecasting.
+
+    Lag features are removed based on the specified forecast horizon. 
+    For example, if the model is forecasting 24 hours ahead, it should 
+    not have access to lag features that correspond to hours within that 
+    future window.
+
+    Parameters:
+        forecast_length (int): Number of hours ahead to forecast.
+        X (pd.DataFrame): Input features, including lag features.
+
+    Returns:
+        pd.DataFrame: Input features with appropriate lag columns removed.
+    """
     if forecast_length == 12 or forecast_length == 24:
         X = X.drop('lag_1', axis=1)
     elif forecast_length == 72:
