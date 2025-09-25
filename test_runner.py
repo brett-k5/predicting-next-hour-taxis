@@ -2,12 +2,15 @@
 import random
 import warnings
 
+# Suppress FutureWarnings 
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 # Third-party imports
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression # We need all three model types imported so that
-from statsmodels.tsa.statespace.sarimax import SARIMAXResults # so that in case override=True in rmse comp, 
-from tbats import TBATS # we can pass any model we like. 
+from sklearn.linear_model import LinearRegression
+from statsmodels.tsa.statespace.sarimax import SARIMAXResults
+from tbats import TBATS
 
 # Local application imports
 from src.test import naive_models, save_df, test
