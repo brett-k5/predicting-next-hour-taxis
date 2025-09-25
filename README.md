@@ -160,11 +160,26 @@ project-root/
 
 ---
 
-## 📬 Contact
+## ⚙️ Setup / Running Notebooks
 
-Feel free to reach out if you'd like to know more about the project or collaborate:
+To run the Jupyter notebooks in this project, ensure you have the required packages installed. **Conda is recommended**, especially on Windows, but any Python virtual environment will work.
 
-- 📧 brttkunkel@gmail.com
-- 💼 [www.linkedin.com/in/brett-kunkel](www.linkedin.com/in/brett-kunkel)
+1. Create and activate your environment:
 
-**Thanks for checking out the project! 🚖**
+**Using Conda (recommended on Windows):**
+```powershell
+conda create --name project_name_env python=3.11
+conda activate project_name_env
+```
+
+---
+
+## 🧠 Authors
+
+- Developed by Brett Kunkel | [www.linkedin.com/in/brett-kunkel](www.linkedin.com/in/brett-kunkel) | brttkunkel@gmail.com
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
