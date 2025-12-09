@@ -95,6 +95,7 @@ def test(best_model: Union[SARIMAXResults, LinearRegression, TBATS],
             preds = pd.Series(preds)
             preds_sarima.append(preds)
         elif isinstance(best_model, LinearRegression):
+            print(type(best_model))
             best_model.fit(X_train, y_train) # Fit LinearRegression model to full training set
             preds = best_model.predict(X_test_step)
             preds = pd.Series(preds)
