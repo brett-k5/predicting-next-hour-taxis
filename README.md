@@ -151,6 +151,8 @@ project-root/
 ├── 3_days_test_results.csv # Test set results for 72-hour forecast
 └── week_test_results.csv # Test set results for 168-hour forecast
 ```
+## 📌 Data  
+You can download the taxi.csv dataset for this project here: https://practicum-content.s3.us-west-1.amazonaws.com/datasets/taxi.csv
 
 ## 🧠 Key Takeaways
 
