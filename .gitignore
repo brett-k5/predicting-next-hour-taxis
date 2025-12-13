@@ -26,11 +26,7 @@ Thumbs.db
 # Model pickle files
 *.pkl
 
-# Results and test output
-*.csv
-test_results/
-*_test_results.csv
-cv_rmse_scores/
+# Models
 models/
 
 # Anaconda project files
@@ -50,10 +46,8 @@ taxi.csv
 # Ignore compiled Python files from any module
 src/__pycache__/
 
-# Optional: ignore notebook output if desired
-# You can uncomment the following if you want to version notebooks *without* cell output
-# *.ipynb
-# !notebooks/*.ipynb
-
 # VS Code workspace history
 .history/
+
+# Dataset
+taxi.csv
